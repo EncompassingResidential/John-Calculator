@@ -1,10 +1,18 @@
+# {
+    max-width: 2000px;
+}
+
 .calculator-grid {
-    background: #eee;
+    background: rgb(22, 21, 21);
+
+    /* old name grid-column-gap: 5px; */
+    column-gap: 5px;
+
     display: grid;
     /* grid-template-columns: 2fr 1fr; */
     /* grid-template-columns: repeat(4, 100px); */
 
-    grid-template-columns: 200px 250px;
+    grid-template-columns: 20px 20px 20px auto;
 
     /* YouTube - Web Dev Simplified doesn't like this method but mentions it:
     grid-template-areas: 
@@ -18,23 +26,31 @@
 
     /* old name grid-gap: 10px; */
     gap: 10px;
-    /* old name grid-column-gap: 5px; */
-    column-gap: 5px;
 
     /* padding: 1em; */
+
+    justify-content: stretch;
+    
+    /* ones I liked: strech, flex-start, flex-end */
+    align-content: stretch;
+    height: 60vh;
+    width: 60vh;
+
+    align-items: stretch;
 }
 
 .calculator-grid > div {
     border-radius: 5px;
-    
+    text-align: center;
+    text-orientation: upright;
 }
 
 .calculator-item {
-    background: purple;
+    background: rgb(134, 125, 134);
 }
 
-.button-1 {
-    background: rgb(5, 65, 121);
+div.field-entry-result {
+    background: rgb(94, 9, 151);
 
 
     /* YouTube - Web Dev Simplified prefers grid-column-[start, end] for column layouts 
@@ -42,13 +58,29 @@
     */
     grid-column-start: 1;
     grid-column-end: -1; 
+
+    color: greenyellow;
     
+    /* vertical-align: middle; */
+
+    margin: 0;
+    position: relative;               /* 2 */
+    top: 50%;                         /* 3 */
+    transform: translate(0, -50%) }   /* 4 */
+
     /*
     WDS other way to do the grid-column
     grid-column: 1 / -1;
 */
 }
 
-.button-2 {
-    background: rgb(13, 92, 19);
+div.field-entry-result p {
+    margin: 0;
+    position: absolute;               /* 2 */
+    top: 50%;                         /* 3 */
+    transform: translate(0, -50%) }   /* 4 */
+}
+
+.button-clear-reset {
+    background: rgb(103, 4, 150);
 }
