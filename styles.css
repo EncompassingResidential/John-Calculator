@@ -1,6 +1,6 @@
 . {
     max-width: 2000px;
-    color: red;
+    color: yellow;
 }
 
 .calculator-grid {
@@ -67,9 +67,10 @@ div.field-entry-result {
     /* vertical-align: middle; */
 
     margin: 0;
-    position: relative;               /* 2 */
-    top: 50%;                         /* 3 */
-    transform: translate(0, -50%) }   /* 4 */
+    position: relative;
+    top: 50%;          
+    -ms-transform: translateY(-50%);
+    transform: translate(0, -50%)
 
     /*
     WDS other way to do the grid-column
@@ -77,12 +78,6 @@ div.field-entry-result {
 */
 }
 
-div.field-entry-result p {
-    margin: 0;
-    position: absolute;               /* 2 */
-    top: 50%;                         /* 3 */
-    transform: translate(0, -50%) }   /* 4 */
-}
 
 .button-clear-reset {
     background: rgb(103, 4, 150);
