@@ -1,10 +1,10 @@
-. {
-    max-width: 2000px;
+* {
+    max-width: auto;
     color: yellow;
 }
 
 .calculator-grid {
-    background: rgb(50, 3, 88);
+    background: rgb(50, 3, 88); /* I like this purple color rgb(50, 3, 88); */
     color: rgb(92, 182, 205);
 
     /* old name grid-column-gap: 5px; */
@@ -14,7 +14,7 @@
     /* grid-template-columns: 2fr 1fr; */
     /* grid-template-columns: repeat(4, 100px); */
 
-    grid-template-columns: 20px 20px 20px auto;
+    grid-template-columns: 32px 32px 32px 10vh;
 
     /* YouTube - Web Dev Simplified doesn't like this method but mentions it:
     grid-template-areas: 
@@ -50,6 +50,7 @@
 
 .calculator-item {
     background: rgb(134, 125, 134);
+    padding: 2px;
 }
 
 div.field-entry-result {
@@ -78,11 +79,26 @@ div.field-entry-result {
 */
 }
 
+.button-0 {
+    grid-column-start: 1;
+    grid-column-end: 3; 
+}
+
+.button-plus-minus {
+    min-width: 28px;
+    grid-auto-columns: auto;
+}
 
 .button-clear-reset {
-    background: rgb(103, 4, 150);
+    background: rgb(216, 107, 5);
+}
+
+.calculator-operator {
+    background: rgb(216, 107, 5);
 }
 
 .footer {
+    grid-column-start: 1;
+    grid-column-end: -1; 
     color: red;
 }
