@@ -1,8 +1,18 @@
-# John-Calculator
-SDMM 3rd project started 1/16/22 for basic Calculator
+John Ritz Calculator App 
 
-go to this www to get the source code:
+This is the 3rd project created for Software Developer Mastermind (SDMM) started on 1/16/22, but started again on 2/02/2022
+
+You can find my CV Resume at https://www.linkedin.com/in/johntritz/
+My personal life coach website is https://www.soberjourneycopilot.com/
+
+Go to this www to get the source code:
 https://github.com/EncompassingResidential/John-Calculator.git
+
+Run the project at: https://encompassingresidential.github.io/John-Calculator/
+
+Should look like this:
+
+![Calculator_Basic_Look](https://user-images.githubusercontent.com/94155021/152419959-3615166f-64be-43d3-ae09-7b0f20f573b2.png)
 
 1-3 weeks
 
