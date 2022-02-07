@@ -32,18 +32,46 @@ function getTimeString() {
 function initializeCalculator() {
     console.log(`initializeCalculator() at ${getTimeString()}`);
 
-    console.log(`calculatorStateItems BEFORE HERE    <entryFieldState ${calculatorStateItems.entryFieldState} entryFieldNumber ${calculatorStateItems.entryFieldNumber} calculatorHistory ${calculatorStateItems.calculatorHistory}>`);
     getCalculatorStateFromLocalStorage();
-    console.log(`calculatorStateItems AFTER HERE    <${calculatorStateItems}>`)
+
+    initalizeInputForm();
+
+    writeCalculatorStateToLocalStorage();
+    //clearLocalStorage();
+
+}
+
+function initalizeInputForm() {
+    console.log('initalizeInputForm button-equal calculateAnswer @ ' + getTimeString());
+
+    document.getElementById('button-equal').addEventListener('click', (e) => {
+      e.preventDefault();
+      calculateAnswer();
+    });
+  
+    document.getElementById('field-entry-result').addEventListener('click', (e) => {
+      e.preventDefault();
+      resultFieldClicked();
+
+    });
 
     let fieldEntryResult = document.getElementById("field-entry-result");
 
     // Web Dev Simplified stated that innerHTML is easily hacked, so use textContent
     fieldEntryResult.textContent = calculatorStateItems.entryFieldState;
 
-    writeCalculatorStateToLocalStorage();
-    //clearLocalStorage();
+}
 
+function calculateAnswer() {
+    let fieldEntryResult = document.getElementById("field-entry-result");
+
+    fieldEntryResult.textContent = "Equal Button clicked to calculateAnswer";
+}
+
+function resultFieldClicked() {
+    let fieldEntryResult = document.getElementById("field-entry-result");
+
+    fieldEntryResult.textContent = "result Field clicked";
 }
 
 function clearLocalStorage() {
@@ -51,7 +79,6 @@ function clearLocalStorage() {
 }
 
 function getCalculatorStateFromLocalStorage() {
-    console.log(`>   getCalculatorStateFromLocalStorage() ` + getTimeString());
 
     calculatorStateLocalStorage = JSON.parse(localStorage.getItem('calculatorStateLocalStorage')) || 
         {   entryFieldState: "Type in your 1st number - getCalculatorState",
@@ -62,11 +89,7 @@ function getCalculatorStateFromLocalStorage() {
             }]
         };
 
-    console.log(`>>  calculatorStateLocalStorage = <${calculatorStateLocalStorage}> has length <${calculatorStateLocalStorage.length}>` + getTimeString());
-
     if (calculatorStateLocalStorage !== null) { 
-        console.log('>>> calculatorStateLocalStorage is NOT null ' + getTimeString());
-        console.log(`>>> calculatorStateLocalStorage = ${calculatorStateLocalStorage}`);
         calculatorStateItems = calculatorStateLocalStorage;
     }
     else {
@@ -76,7 +99,6 @@ function getCalculatorStateFromLocalStorage() {
 }
 
 function writeCalculatorStateToLocalStorage() {
-    console.log(`writeCalculatorStateToLocalStorage() ` + getTimeString());
     localStorage.setItem('calculatorStateLocalStorage', JSON.stringify(calculatorStateItems));
 }
 
