@@ -2,7 +2,8 @@ John Ritz Calculator App
 
 This is the 3rd project created for Software Developer Mastermind (SDMM) started on 1/16/22, but main push started on 2/02/2022
 
-You can find my CV Resume at https://www.linkedin.com/in/johntritz/ <br>
+You can find my CV Resume at https://www.linkedin.com/in/johntritz/ 
+
 My personal life coach website is https://www.soberjourneycopilot.com/
 
 Go to this www to get the source code:
