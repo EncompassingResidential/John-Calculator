@@ -34,7 +34,6 @@ function getTimeString() {
 }
 
 function initializeCalculator() {
-    console.log(`initializeCalculator() at ${getTimeString()}`);
 
     getCalculatorStateFromLocalStorage();
 
@@ -45,7 +44,6 @@ function initializeCalculator() {
 }
 
 function initalizeInputForm() {
-    console.log('initalizeInputForm button-equal calculateAnswer @ ' + getTimeString());
   
     document.getElementById('field-entry-result').addEventListener('click', (e) => {
         e.preventDefault();
@@ -94,52 +92,52 @@ function initalizeInputForm() {
     
     document.getElementById('button-1').addEventListener('click', (e) => {
         e.preventDefault();
-        oneButtonClicked();
+        numberButtonClickedAction(1);
     });
 
     document.getElementById('button-2').addEventListener('click', (e) => {
         e.preventDefault();
-        twoButtonClicked();
+        numberButtonClickedAction(2);
     });
 
     document.getElementById('button-3').addEventListener('click', (e) => {
         e.preventDefault();
-        threeButtonClicked();
+        numberButtonClickedAction(3);
     });
 
     document.getElementById('button-4').addEventListener('click', (e) => {
         e.preventDefault();
-        fourButtonClicked();
+        numberButtonClickedAction(4);
     });
 
     document.getElementById('button-5').addEventListener('click', (e) => {
         e.preventDefault();
-        fiveButtonClicked();
+        numberButtonClickedAction(5);
     });
 
     document.getElementById('button-6').addEventListener('click', (e) => {
         e.preventDefault();
-        sixButtonClicked();
+        numberButtonClickedAction(6);
     });
 
     document.getElementById('button-7').addEventListener('click', (e) => {
         e.preventDefault();
-        sevenButtonClicked();
+        numberButtonClickedAction(7);
     });
 
     document.getElementById('button-8').addEventListener('click', (e) => {
         e.preventDefault();
-        eightButtonClicked();
+        numberButtonClickedAction(8);
     });
 
     document.getElementById('button-9').addEventListener('click', (e) => {
         e.preventDefault();
-        nineButtonClicked();
+        numberButtonClickedAction(9);
     });
 
     document.getElementById('button-0').addEventListener('click', (e) => {
         e.preventDefault();
-        zeroButtonClicked();
+        numberButtonClickedAction(0);
     });
 
     document.getElementById('button-period').addEventListener('click', (e) => {
@@ -174,46 +172,6 @@ function numberButtonClickedAction(buttonNumber) {
     writeCalculatorStateToLocalStorage();
 }
 
-function oneButtonClicked() {
-    numberButtonClickedAction(1);
-}
-
-function twoButtonClicked() {
-    numberButtonClickedAction(2);
-}
-
-function threeButtonClicked() {
-    numberButtonClickedAction(3);
-}
-
-function fourButtonClicked() {
-    numberButtonClickedAction(4);
-}
-
-function fiveButtonClicked() {
-    numberButtonClickedAction(5);
-}
-
-function sixButtonClicked() {
-    numberButtonClickedAction(6);
-}
-
-function sevenButtonClicked() {
-    numberButtonClickedAction(7);
-}
-
-function eightButtonClicked() {
-    numberButtonClickedAction(8);
-}
-
-function nineButtonClicked() {
-    numberButtonClickedAction(9);
-}
-
-function zeroButtonClicked() {
-    numberButtonClickedAction(0);
-}
-
 
 function addButtonClicked() {
     let fieldEntryResult = document.getElementById("field-entry-result");
@@ -229,8 +187,6 @@ function clearButtonClicked() {
 
     fieldEntryResult.textContent = calculatorStateItems.entryOperationNumberSum;
     calculatorStateItems.entryFieldStartedOperation = false;
-
-    console.log(` AC button pressed ${getTimeString()}`);
 
     clearLocalStorage();
 }
