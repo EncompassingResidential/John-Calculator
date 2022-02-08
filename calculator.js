@@ -40,6 +40,7 @@ function getTimeString() {
 
 function initializeCalculator() {
 
+    console.log("initializeCalculator() " + getTimeString());
     getCalculatorStateFromLocalStorage();
 
     initalizeInputForm();
@@ -48,6 +49,13 @@ function initializeCalculator() {
 
     // Web Dev Simplified stated that innerHTML is easily hacked, so use textContent
     fieldEntryResult.textContent = calculatorStateItems.entryOperationNumberSum;
+
+    let fieldCalculatorHistory = document.getElementById("field-calculator-history");
+
+    fieldCalculatorHistory.textContent += '\r\n\r\n';
+    calculatorStateItems.calculatorHistory.forEach(element => {
+        fieldCalculatorHistory.textContent += "JR" + element.calculation + ' = ' + element.result + `\r\n`;
+    });
 
     writeCalculatorStateToLocalStorage();
 
@@ -160,6 +168,7 @@ function initalizeInputForm() {
 
 function calculateAnswer() {
     let fieldEntryResult = document.getElementById("field-entry-result");
+    let fieldCalculatorHistory = document.getElementById("field-calculator-history");
     let currentOperation = '';
     let currentSum = 0;
     let currentLeftOperand = calculatorStateItems.entryInputLeftOperand;
@@ -214,6 +223,11 @@ function calculateAnswer() {
     calculatorHistoryItem.result = currentSum;
     calculatorHistoryItem.calculation = currentOperation;
     calculatorStateItems.calculatorHistory.push(calculatorHistoryItem);
+
+    fieldCalculatorHistory.textContent = 'Calculator History\r\n\r\n';
+    calculatorStateItems.calculatorHistory.forEach(element => {
+        fieldCalculatorHistory.textContent += element.calculation + ' = ' + element.result + `\r\n`;
+    });
 
     writeCalculatorStateToLocalStorage();
 
@@ -277,10 +291,16 @@ function clearButtonClicked() {
 
     calculatorStateItems = initialStateItems;
 
-    fieldEntryResult.textContent = calculatorStateItems.entryOperationNumberSum;
+    fieldEntryResult.textContent = 0;
+
+    calculatorStateItems.entryInputLeftOperand = null;
+    calculatorStateItems.entryInputRightOperand = null;
+    calculatorStateItems.entryCurrentOperation = null;
+    calculatorStateItems.entryOperationNumberSum = null;
     calculatorStateItems.entryFieldStartedOperation = false;
 
-    clearLocalStorage();
+    writeCalculatorStateToLocalStorage();
+    // clearLocalStorage();
 }
 
 

@@ -1,9 +1,13 @@
 * {
-    max-width: auto;
+    max-width: 200vh;
+    max-height: 200vh;
     color: yellow;
 }
 
 .calculator-grid {
+    min-width: 400px;
+    min-height: 350px;
+
     background: rgb(50, 3, 88); /* I like this purple color rgb(50, 3, 88); */
     color: rgb(92, 182, 205);
 
@@ -14,7 +18,8 @@
     /* grid-template-columns: 2fr 1fr; */
     /* grid-template-columns: repeat(4, 100px); */
 
-    grid-template-columns: 32px 32px 32px 10vh;
+    grid-template-columns: 32px 32px 32px 32px auto 150px;
+    /* grid-template-columns: 32px 32px 32px 10vh; */
 
     /* YouTube - Web Dev Simplified doesn't like this method but mentions it:
     grid-template-areas: 
@@ -24,7 +29,8 @@
     */
 
     /* grid-template-rows: 200px 150px;  */
-    grid-auto-rows: (100px, auto);
+    grid-template-rows: 10vh 10vh 10vh 10vh 10vh 10vh;
+    /* grid-auto-rows: (100px, auto); */
 
     /* old name grid-gap: 10px; */
     gap: 1px;
@@ -61,7 +67,7 @@ div.field-entry-result {
     https://www.youtube.com/watch?v=9zBsdzdE4sM&t=604s
     */
     grid-column-start: 1;
-    grid-column-end: -1; 
+    grid-column-end: 5; 
 
     color: greenyellow;
     
@@ -77,6 +83,17 @@ div.field-entry-result {
     WDS other way to do the grid-column
     grid-column: 1 / -1;
 */
+}
+
+.field-calculator-history {
+    color: chartreuse;
+
+    white-space: pre-line;
+
+    grid-column-start: 5;
+    grid-column-end: 7; 
+    grid-row-start: 1;
+    grid-row-end: 5; 
 }
 
 .button-0 {
