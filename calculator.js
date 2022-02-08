@@ -1,12 +1,16 @@
 
-let calculatorStateItems = {
-        entryFieldState: "Type in your 5th number",
-        entryFieldNumber: 0,
+const initialStateItems = {
+        entryInputLeftOperand: 0, // 0 is fine except if the initial operation is a multiply
+        entryInputRightOperand: 0,
+        entryOperationNumberSum: 0,
+        entryFieldStartedOperation: false,
         calculatorHistory: [{
             calculation: "1 - 2",
             result: -1
         }]
     };
+
+let calculatorStateItems = initialStateItems;
 
 initializeCalculator();
 
@@ -37,7 +41,6 @@ function initializeCalculator() {
     initalizeInputForm();
 
     writeCalculatorStateToLocalStorage();
-    //clearLocalStorage();
 
 }
 
@@ -147,7 +150,7 @@ function initalizeInputForm() {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
     // Web Dev Simplified stated that innerHTML is easily hacked, so use textContent
-    fieldEntryResult.textContent = calculatorStateItems.entryFieldState;
+    fieldEntryResult.textContent = calculatorStateItems.entryInputLeftOperand;
 
 }
 
@@ -158,64 +161,57 @@ function calculateAnswer() {
 }
 
 
-function oneButtonClicked() {
+function numberButtonClickedAction(buttonNumber) {
+    getCalculatorStateFromLocalStorage();
     let fieldEntryResult = document.getElementById("field-entry-result");
+    console.log(` ${buttonNumber}  pressed ${getTimeString()}`);
 
-    fieldEntryResult.textContent = "1 Button clicked number";
+    calculatorStateItems.entryFieldStartedOperation = true;
+
+    fieldEntryResult.textContent = buttonNumber;
+    calculatorStateItems.entryInputRightOperand = buttonNumber;
+
+    writeCalculatorStateToLocalStorage();
+}
+
+function oneButtonClicked() {
+    numberButtonClickedAction(1);
 }
 
 function twoButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "2 Button clicked number";
+    numberButtonClickedAction(2);
 }
 
 function threeButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "3 Button clicked number";
+    numberButtonClickedAction(3);
 }
 
 function fourButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "4 Button clicked number";
+    numberButtonClickedAction(4);
 }
 
 function fiveButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "5 Button clicked number";
+    numberButtonClickedAction(5);
 }
 
 function sixButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "6 Button clicked number";
+    numberButtonClickedAction(6);
 }
 
 function sevenButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "7 Button clicked number";
+    numberButtonClickedAction(7);
 }
 
 function eightButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "8 Button clicked number";
+    numberButtonClickedAction(8);
 }
 
 function nineButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "9 Button clicked number";
+    numberButtonClickedAction(9);
 }
 
 function zeroButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "0 Button clicked number";
+    numberButtonClickedAction(0);
 }
 
 
@@ -229,7 +225,14 @@ function addButtonClicked() {
 function clearButtonClicked() {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
-    fieldEntryResult.textContent = "Clear / AC Button clicked to clear current operations to start new number operation";
+    calculatorStateItems = initialStateItems;
+
+    fieldEntryResult.textContent = calculatorStateItems.entryOperationNumberSum;
+    calculatorStateItems.entryFieldStartedOperation = false;
+
+    console.log(` AC button pressed ${getTimeString()}`);
+
+    clearLocalStorage();
 }
 
 function divideButtonClicked() {
@@ -283,21 +286,10 @@ function clearLocalStorage() {
 
 function getCalculatorStateFromLocalStorage() {
 
-    calculatorStateLocalStorage = JSON.parse(localStorage.getItem('calculatorStateLocalStorage')) || 
-        {   entryFieldState: "Type in your 1st number - getCalculatorState",
-            entryFieldNumber: 0,
-            calculatorHistory: [{
-                calculation: "1 + 1",
-                result: 2
-            }]
-        };
+    calculatorStateLocalStorage = JSON.parse(localStorage.getItem('calculatorStateLocalStorage')) || initialStateItems;
 
-    if (calculatorStateLocalStorage !== null) { 
-        calculatorStateItems = calculatorStateLocalStorage;
-    }
-    else {
+    (calculatorStateLocalStorage !== null) ? calculatorStateItems = calculatorStateLocalStorage : 
         console.log('<<< calculatorStateLocalStorage is null  ' + getTimeString());
-    }
 
 }
 
