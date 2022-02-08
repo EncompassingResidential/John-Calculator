@@ -1,18 +1,23 @@
+let calculatorHistoryItem = {
+        calculation: "",
+        result: null
+    }
 
 const initialStateItems = {
-        entryInputLeftOperand: 0, // 0 is fine except if the initial operation is a multiply
-        entryInputRightOperand: 0,
+        entryInputLeftOperand: null, // 0 is fine except if the initial operation is a multiply
+                                        // 2/08/22 decided to make it null
+        entryInputRightOperand: null,
+        entryCurrentOperation: '',  // will be single string '+', '-', '*', '/', '%'
         entryOperationNumberSum: 0,
         entryFieldStartedOperation: false,
-        calculatorHistory: [{
-            calculation: "1 - 2",
-            result: -1
-        }]
+        calculatorHistory: [calculatorHistoryItem]
     };
 
 let calculatorStateItems = initialStateItems;
 
+
 initializeCalculator();
+
 
 function getDateString() {
     const daylist = ["Sunday","Monday","Tuesday","Wednesday ","Thursday","Friday","Saturday"];
@@ -39,6 +44,11 @@ function initializeCalculator() {
 
     initalizeInputForm();
 
+    let fieldEntryResult = document.getElementById("field-entry-result");
+
+    // Web Dev Simplified stated that innerHTML is easily hacked, so use textContent
+    fieldEntryResult.textContent = calculatorStateItems.entryOperationNumberSum;
+
     writeCalculatorStateToLocalStorage();
 
 }
@@ -62,27 +72,27 @@ function initalizeInputForm() {
 
     document.getElementById('button-divide').addEventListener('click', (e) => {
         e.preventDefault();
-        divideButtonClicked();
+        operationButtonClickedForTwoOperands('/');
       });
 
     document.getElementById('button-minus').addEventListener('click', (e) => {
         e.preventDefault();
-        subtractButtonClicked();
+        operationButtonClickedForTwoOperands('-');
     });
 
     document.getElementById('button-multiply').addEventListener('click', (e) => {
         e.preventDefault();
-        multiplyButtonClicked();
+        operationButtonClickedForTwoOperands('*');
     });
 
     document.getElementById('button-percent').addEventListener('click', (e) => {
         e.preventDefault();
-        percentButtonClicked();
+        operationButtonClickedForOneOperand('%');
     });
 
     document.getElementById('button-plus').addEventListener('click', (e) => {
         e.preventDefault();
-        addButtonClicked();
+        operationButtonClickedForTwoOperands('+');
     });
 
     document.getElementById('button-plus-minus').addEventListener('click', (e) => {
@@ -145,18 +155,69 @@ function initalizeInputForm() {
         periodButtonClicked();
     });
 
-    let fieldEntryResult = document.getElementById("field-entry-result");
+}  // function initalizeInputForm
 
-    // Web Dev Simplified stated that innerHTML is easily hacked, so use textContent
-    fieldEntryResult.textContent = calculatorStateItems.entryInputLeftOperand;
-
-}
 
 function calculateAnswer() {
     let fieldEntryResult = document.getElementById("field-entry-result");
+    let currentOperation = '';
+    let currentSum = 0;
+    let currentLeftOperand = calculatorStateItems.entryInputLeftOperand;
+    let currentRightOperand = calculatorStateItems.entryInputRightOperand;
 
-    fieldEntryResult.textContent = "Equal Button clicked to calculateAnswer";
-}
+    switch (calculatorStateItems.entryCurrentOperation) {
+        case '+':
+            currentSum = currentLeftOperand + currentRightOperand;
+            currentOperation = currentLeftOperand + ' + ' + currentRightOperand;
+
+            break;
+    
+        case '-':
+            currentSum = currentLeftOperand - currentRightOperand;
+            currentOperation = currentLeftOperand + ' - ' + currentRightOperand;
+            
+            break;
+    
+        case '*':
+            currentSum = currentLeftOperand * currentRightOperand;
+            currentOperation = currentLeftOperand + ' * ' + currentRightOperand;
+            
+            break;
+    
+        case '/':
+            currentSum = currentLeftOperand / currentRightOperand;
+            currentOperation = currentLeftOperand + ' / ' + currentRightOperand;
+            
+            break;
+    
+        case '%':
+            currentSum = currentRightOperand / 100;
+            currentOperation = currentRightOperand + ' %';
+            
+            break;
+    
+        default:
+            break;
+    }
+
+    fieldEntryResult.textContent = currentSum;
+
+    calculatorStateItems.entryOperationNumberSum = currentSum;
+    calculatorStateItems.entryInputLeftOperand = null;
+    calculatorStateItems.entryInputRightOperand = null;
+    calculatorStateItems.entryCurrentOperation = null;
+    calculatorStateItems.entryFieldStartedOperation = false;
+
+    if (calculatorStateItems.calculatorHistory.length === 1 && calculatorStateItems.calculatorHistory[0].result === null) {
+        calculatorStateItems.calculatorHistory.pop();
+    }
+    calculatorHistoryItem.result = currentSum;
+    calculatorHistoryItem.calculation = currentOperation;
+    calculatorStateItems.calculatorHistory.push(calculatorHistoryItem);
+
+    writeCalculatorStateToLocalStorage();
+
+} // function calculateAnswer
 
 
 function numberButtonClickedAction(buttonNumber) {
@@ -173,10 +234,41 @@ function numberButtonClickedAction(buttonNumber) {
 }
 
 
-function addButtonClicked() {
+function operationButtonClickedForTwoOperands(currentOperation) {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
-    fieldEntryResult.textContent = "Add Button clicked to add previous sum by next number";
+    console.log(`operationButtonClickedForTwoOperands for ${currentOperation} operation ${getTimeString()}`);
+
+    if (calculatorStateItems.entryInputRightOperand) {
+        console.log(`calculatorStateItems.entryInputRightOperand <${calculatorStateItems.entryInputRightOperand}> ${getTimeString()}`);
+
+        calculatorStateItems.entryInputLeftOperand = calculatorStateItems.entryInputRightOperand;
+        calculatorStateItems.entryCurrentOperation = currentOperation;
+        fieldEntryResult.textContent = calculatorStateItems.entryInputLeftOperand + '  ' + currentOperation;
+    }
+    calculatorStateItems.entryInputRightOperand = null;
+
+    writeCalculatorStateToLocalStorage();
+}
+
+function operationButtonClickedForOneOperand(currentOperation) {
+    let fieldEntryResult = document.getElementById("field-entry-result");
+
+    console.log(`operationButtonClickedForOneOperand for ${currentOperation} operation ${getTimeString()}`);
+
+    console.log(`calculatorStateItems.entryInputRightOperand <${calculatorStateItems.entryInputRightOperand}> ${getTimeString()}`);
+
+    // This is stating that if Actor had pressed a [Number A] Operation [Number B] % 
+    //   then the 1st [Number A] Operation is canceled
+    //    and [Number B] is acted upon as a Percent in 
+    calculatorStateItems.entryInputLeftOperand = null;
+    calculatorStateItems.entryCurrentOperation = currentOperation;
+
+    fieldEntryResult.textContent = calculatorStateItems.entryInputRightOperand + '  ' + currentOperation;
+
+    calculateAnswer();
+
+    writeCalculatorStateToLocalStorage();
 }
 
 
@@ -191,25 +283,6 @@ function clearButtonClicked() {
     clearLocalStorage();
 }
 
-function divideButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "Divide Button clicked to divide previous sum by next number";
-}
-
-function multiplyButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "Multiply Button clicked to multiply previous sum by next number";
-}
-
-
-function percentButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "Percent % Button clicked to divide number by 100";
-}
-
 
 function periodButtonClicked() {
     let fieldEntryResult = document.getElementById("field-entry-result");
@@ -222,12 +295,6 @@ function plusMinusButtonClicked() {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
     fieldEntryResult.textContent = "Plus / Minus Button clicked to reverse number negativity";
-}
-
-function subtractButtonClicked() {
-    let fieldEntryResult = document.getElementById("field-entry-result");
-
-    fieldEntryResult.textContent = "Subtract Button clicked to subtract previous sum by next number";
 }
 
 function resultFieldClicked() {
