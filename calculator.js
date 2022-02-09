@@ -7,7 +7,7 @@ const initialStateItems = {
         entryInputLeftOperand: null, // 0 is fine except if the initial operation is a multiply
                                         // 2/08/22 decided to make it null
         entryInputRightOperand: null,
-        entryCurrentOperation: '',  // will be single string '+', '-', '*', '/', '%'
+        entryCurrentOperation: "",  // will be single string '+', '-', '*', '/', '%'
         entryOperationNumberSum: 0,
         entryFieldStartedOperation: false,
         calculatorHistory: [calculatorHistoryItem]
@@ -42,7 +42,7 @@ function initializeCalculator() {
 
     console.log("initializeCalculator() " + getTimeString());
 
-    // clearLocalStorage();
+    clearLocalStorage();
 
     getCalculatorStateFromLocalStorage();
 
@@ -176,8 +176,12 @@ function calculateAnswer() {
     let fieldCalculatorHistory = document.getElementById("field-calculator-history");
     let currentOperation = '';
     let currentSum = 0;
+
     let currentLeftOperand = calculatorStateItems.entryInputLeftOperand;
     let currentRightOperand = calculatorStateItems.entryInputRightOperand;
+
+    currentLeftOperand  =  (currentLeftOperand.search(".") !== -1) ? +(currentLeftOperand) : parseInt(currentLeftOperand);
+    currentRightOperand = (currentRightOperand.search(".") !== -1) ? +(currentRightOperand) : parseInt(currentRightOperand);
 
     switch (calculatorStateItems.entryCurrentOperation) {
         case '+':
@@ -242,12 +246,28 @@ function calculateAnswer() {
 function numberButtonClickedAction(buttonNumber) {
     getCalculatorStateFromLocalStorage();
     let fieldEntryResult = document.getElementById("field-entry-result");
-    console.log(` ${buttonNumber}  pressed ${getTimeString()}`);
+    console.log(`\n ${buttonNumber}  pressed ${getTimeString()}`);
 
-    calculatorStateItems.entryFieldStartedOperation = true;
+    if (calculatorStateItems.entryFieldStartedOperation === true) {
 
-    fieldEntryResult.textContent = buttonNumber;
-    calculatorStateItems.entryInputRightOperand = buttonNumber;
+        if (calculatorStateItems.entryInputRightOperand != null) {
+            console.log("RightOperand.toString() typeof < " + typeof calculatorStateItems.entryInputRightOperand.toString());
+            console.log("buttonNumber.toString() typeof < " + typeof buttonNumber.toString());
+            //console.log("parseInt RightOperand + parseInt buttonNumber typeof < " + typeof (parseInt(calculatorStateItems.entryInputRightOperand) + parseInt(buttonNumber)));
+            console.log("RightOperand.toString + buttonNumber.toString() = <" + (calculatorStateItems.entryInputRightOperand.toString() + buttonNumber.toString()) + ">");
+            fieldEntryResult.textContent = calculatorStateItems.entryInputRightOperand.toString() + buttonNumber.toString();
+            calculatorStateItems.entryInputRightOperand = calculatorStateItems.entryInputRightOperand.toString() + buttonNumber.toString();
+        }
+        else {
+            console.log(`calculatorStateItems.entryInputRightOperand == null     Is this Truthy?`);
+        }
+    }
+    else {
+        console.log(`calculatorStateItems.entryFieldStartedOperation  !==  true`);
+        calculatorStateItems.entryFieldStartedOperation = true;
+        fieldEntryResult.textContent = buttonNumber.toString();
+        calculatorStateItems.entryInputRightOperand = buttonNumber.toString();
+    }
 
     writeCalculatorStateToLocalStorage();
 }
@@ -258,14 +278,19 @@ function operationButtonClickedForTwoOperands(currentOperation) {
 
     console.log(`operationButtonClickedForTwoOperands for ${currentOperation} operation ${getTimeString()}`);
 
-    if (calculatorStateItems.entryInputRightOperand) {
+    if (calculatorStateItems.entryInputRightOperand != null) {
         console.log(`calculatorStateItems.entryInputRightOperand <${calculatorStateItems.entryInputRightOperand}> ${getTimeString()}`);
 
         calculatorStateItems.entryInputLeftOperand = calculatorStateItems.entryInputRightOperand;
         calculatorStateItems.entryCurrentOperation = currentOperation;
         fieldEntryResult.textContent = calculatorStateItems.entryInputLeftOperand + '  ' + currentOperation;
     }
+    else {
+        console.log(`calculatorStateItems.entryInputRightOperand == null`);
+    }
+
     calculatorStateItems.entryInputRightOperand = null;
+    calculatorStateItems.entryFieldStartedOperation = false;
 
     writeCalculatorStateToLocalStorage();
 }
@@ -337,7 +362,7 @@ function clearLocalStorage() {
 function getCalculatorStateFromLocalStorage() {
 
     calculatorStateLocalStorage = JSON.parse(localStorage.getItem('calculatorStateLocalStorage')) || initialStateItems;
-
+    // console.log(`calculatorStateLocalStorage <${calculatorStateLocalStorage}>`);
     (calculatorStateLocalStorage !== null) ? calculatorStateItems = calculatorStateLocalStorage : 
         console.log('<<< calculatorStateLocalStorage is null  ' + getTimeString());
 
