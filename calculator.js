@@ -41,6 +41,9 @@ function getTimeString() {
 function initializeCalculator() {
 
     console.log("initializeCalculator() " + getTimeString());
+
+    // clearLocalStorage();
+
     getCalculatorStateFromLocalStorage();
 
     initalizeInputForm();
@@ -52,11 +55,13 @@ function initializeCalculator() {
 
     let fieldCalculatorHistory = document.getElementById("field-calculator-history");
 
-    fieldCalculatorHistory.textContent += '\r\n\r\n';
-    calculatorStateItems.calculatorHistory.forEach(element => {
-        fieldCalculatorHistory.textContent += "JR" + element.calculation + ' = ' + element.result + `\r\n`;
-    });
+    if (calculatorStateItems.calculatorHistory.length >= 1 && calculatorStateItems.calculatorHistory[0].result !== null){
+        fieldCalculatorHistory.textContent += '\r\n\r\n';
 
+        calculatorStateItems.calculatorHistory.forEach(element => {
+            fieldCalculatorHistory.textContent += element.calculation + ' = ' + element.result + `\r\n`;
+        });
+    }
     writeCalculatorStateToLocalStorage();
 
 }
@@ -325,6 +330,8 @@ function resultFieldClicked() {
 
 function clearLocalStorage() {
     localStorage.clear();
+    calculatorStateItems = initialStateItems;
+    console.log(`clearLocalStorage ${getTimeString()}`);
 }
 
 function getCalculatorStateFromLocalStorage() {
