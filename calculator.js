@@ -7,9 +7,11 @@ const initialStateItems = {
         entryInputLeftOperand: null, // 0 is fine except if the initial operation is a multiply
                                         // 2/08/22 decided to make it null
         entryInputRightOperand: null,
-        entryCurrentOperation: "",  // will be single string '+', '-', '*', '/', '%'
-        entryOperationNumberSum: 0,
-        entryFieldStartedOperation: false,
+        entryCurrentOperator: "",  // will be single string '+', '-', '*', '/', '%'
+        entryFieldMultiDigitNumber: false,
+        operationNumberSum: 0,
+        operationIsContinousFunction: false,
+        operationRunningHistory: "",
         calculatorHistory: [calculatorHistoryItem]
     };
 
@@ -42,7 +44,7 @@ function initializeCalculator() {
 
     console.log("initializeCalculator() " + getTimeString());
 
-    clearLocalStorage();
+    // clearLocalStorage();
 
     getCalculatorStateFromLocalStorage();
 
@@ -51,7 +53,7 @@ function initializeCalculator() {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
     // Web Dev Simplified stated that innerHTML is easily hacked, so use textContent
-    fieldEntryResult.textContent = calculatorStateItems.entryOperationNumberSum;
+    fieldEntryResult.textContent = calculatorStateItems.operationNumberSum;
 
     let fieldCalculatorHistory = document.getElementById("field-calculator-history");
 
@@ -80,7 +82,8 @@ function initalizeInputForm() {
     
     document.getElementById('button-equal').addEventListener('click', (e) => {
       e.preventDefault();
-      calculateAnswer();
+      calculateRunningSum();
+      calculateFinalSum();
     });
 
     document.getElementById('button-divide').addEventListener('click', (e) => {
@@ -170,10 +173,8 @@ function initalizeInputForm() {
 
 }  // function initalizeInputForm
 
-
-function calculateAnswer() {
+function calculateRunningSum() {
     let fieldEntryResult = document.getElementById("field-entry-result");
-    let fieldCalculatorHistory = document.getElementById("field-calculator-history");
     let currentOperation = '';
     let currentSum = 0;
 
@@ -183,7 +184,7 @@ function calculateAnswer() {
     currentLeftOperand  =  (currentLeftOperand.search(".") !== -1) ? +(currentLeftOperand) : parseInt(currentLeftOperand);
     currentRightOperand = (currentRightOperand.search(".") !== -1) ? +(currentRightOperand) : parseInt(currentRightOperand);
 
-    switch (calculatorStateItems.entryCurrentOperation) {
+    switch (calculatorStateItems.entryCurrentOperator) {
         case '+':
             currentSum = currentLeftOperand + currentRightOperand;
             currentOperation = currentLeftOperand + ' + ' + currentRightOperand;
@@ -219,18 +220,24 @@ function calculateAnswer() {
     }
 
     fieldEntryResult.textContent = currentSum;
+    calculatorStateItems.operationNumberSum = currentSum;
+    calculatorStateItems.operationRunningHistory = currentOperation;    
+}
 
-    calculatorStateItems.entryOperationNumberSum = currentSum;
+function calculateFinalSum() {
+    let fieldCalculatorHistory = document.getElementById("field-calculator-history");
+
     calculatorStateItems.entryInputLeftOperand = null;
     calculatorStateItems.entryInputRightOperand = null;
-    calculatorStateItems.entryCurrentOperation = null;
-    calculatorStateItems.entryFieldStartedOperation = false;
+    calculatorStateItems.entryCurrentOperator = null;
+    calculatorStateItems.entryFieldMultiDigitNumber = false;
 
     if (calculatorStateItems.calculatorHistory.length === 1 && calculatorStateItems.calculatorHistory[0].result === null) {
         calculatorStateItems.calculatorHistory.pop();
     }
-    calculatorHistoryItem.result = currentSum;
-    calculatorHistoryItem.calculation = currentOperation;
+    calculatorHistoryItem.result = calculatorStateItems.operationNumberSum;
+    calculatorHistoryItem.calculation = calculatorStateItems.operationRunningHistory;
+
     calculatorStateItems.calculatorHistory.push(calculatorHistoryItem);
 
     fieldCalculatorHistory.textContent = 'Calculator History\r\n\r\n';
@@ -248,7 +255,7 @@ function numberButtonClickedAction(buttonNumber) {
     let fieldEntryResult = document.getElementById("field-entry-result");
     console.log(`\n ${buttonNumber}  pressed ${getTimeString()}`);
 
-    if (calculatorStateItems.entryFieldStartedOperation === true) {
+    if (calculatorStateItems.entryFieldMultiDigitNumber === true) {
 
         if (calculatorStateItems.entryInputRightOperand != null) {
             console.log("RightOperand.toString() typeof < " + typeof calculatorStateItems.entryInputRightOperand.toString());
@@ -263,8 +270,8 @@ function numberButtonClickedAction(buttonNumber) {
         }
     }
     else {
-        console.log(`calculatorStateItems.entryFieldStartedOperation  !==  true`);
-        calculatorStateItems.entryFieldStartedOperation = true;
+        console.log(`calculatorStateItems.entryFieldMultiDigitNumber  !==  true`);
+        calculatorStateItems.entryFieldMultiDigitNumber = true;
         fieldEntryResult.textContent = buttonNumber.toString();
         calculatorStateItems.entryInputRightOperand = buttonNumber.toString();
     }
@@ -282,7 +289,7 @@ function operationButtonClickedForTwoOperands(currentOperation) {
         console.log(`calculatorStateItems.entryInputRightOperand <${calculatorStateItems.entryInputRightOperand}> ${getTimeString()}`);
 
         calculatorStateItems.entryInputLeftOperand = calculatorStateItems.entryInputRightOperand;
-        calculatorStateItems.entryCurrentOperation = currentOperation;
+        calculatorStateItems.entryCurrentOperator = currentOperation;
         fieldEntryResult.textContent = calculatorStateItems.entryInputLeftOperand + '  ' + currentOperation;
     }
     else {
@@ -290,7 +297,7 @@ function operationButtonClickedForTwoOperands(currentOperation) {
     }
 
     calculatorStateItems.entryInputRightOperand = null;
-    calculatorStateItems.entryFieldStartedOperation = false;
+    calculatorStateItems.entryFieldMultiDigitNumber = false;
 
     writeCalculatorStateToLocalStorage();
 }
@@ -306,11 +313,12 @@ function operationButtonClickedForOneOperand(currentOperation) {
     //   then the 1st [Number A] Operation is canceled
     //    and [Number B] is acted upon as a Percent in 
     calculatorStateItems.entryInputLeftOperand = null;
-    calculatorStateItems.entryCurrentOperation = currentOperation;
+    calculatorStateItems.entryCurrentOperator = currentOperation;
 
     fieldEntryResult.textContent = calculatorStateItems.entryInputRightOperand + '  ' + currentOperation;
 
-    calculateAnswer();
+    calculateRunningSum();
+    calculateFinalSum();
 
     writeCalculatorStateToLocalStorage();
 }
@@ -325,9 +333,9 @@ function clearButtonClicked() {
 
     calculatorStateItems.entryInputLeftOperand = null;
     calculatorStateItems.entryInputRightOperand = null;
-    calculatorStateItems.entryCurrentOperation = null;
-    calculatorStateItems.entryOperationNumberSum = null;
-    calculatorStateItems.entryFieldStartedOperation = false;
+    calculatorStateItems.entryCurrentOperator = null;
+    calculatorStateItems.operationNumberSum = null;
+    calculatorStateItems.entryFieldMultiDigitNumber = false;
 
     writeCalculatorStateToLocalStorage();
     // clearLocalStorage();

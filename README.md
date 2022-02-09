@@ -19,48 +19,51 @@ Should look like this:
 
 Rules
 ●        Project will be written in:
-  ○        HTML
-  ○        CSS
-  ○        Javascript
+  ○ +       HTML
+  ○ +       CSS
+  ○ +       Javascript
 
-●        No Javascript libraries or frameworks are allowed
-●        Do not use the eval() function in Javascript
+● +       No Javascript libraries or frameworks are allowed
+● +       Do not use the eval() function in Javascript
   ○        It is considered unsafe: Article
 
-●        No following tutorials of calculator apps/projects
-●        No copying code of other existing calculator apps/projects
+● +       No following tutorials of calculator apps/projects
+● +       No copying code of other existing calculator apps/projects
 
 Deliverables
 Cross off each one you have completed
 
 A user can add two numbers together:
-●        1 + 1 = 2
-●        11 + 2 = 13
-●        11 + 22 = 33
+● +       1 + 1 = 2
+● +       11 + 2 = 13
+● +       11 + 22 = 33
 
 Subtract two numbers
-●        3 - 2 = 1
-●        33 - 2 = 31
-●        33 - 22 = 11
-●        22 - 33 = -11
+● +       3 - 2 = 1
+● +       33 - 2 = 31
+● +       33 - 22 = 11
+● +       22 - 33 = -11
 
 Multiply two numbers
-●        2 x 3 = 6
-●        22 x 3 = 66
-●        22 x 33 = 726
+● +       2 x 3 = 6
+● +       22 x 3 = 66
+● +       22 x 33 = 726
 
 Divide two numbers
-●        6 / 3 = 2
-●        66 / 3 = 22
-●        66 / 33 = 2
-●        10 / 3 = 3.3333
-●        10 / 4 = 1.5
+● +       6 / 3 = 2
+● +       66 / 3 = 22
+● +       66 / 33 = 2
+● +       10 / 3 = 3.3333
+● +       10 / 4 = 1.5 wrong (actual answer is 2.5)
 
-Display at least 10 digits on the screen
++ Display at least 10 digits on the screen
 
 Display decimals to at least the thousandth (.001)
++ on results and calculator history
 
-Perform continuous functions:
+needs this on being able to enter in floating
+
+Needs on - Perform continuous functions:
 ●        1 + 1 + 1 + 1 = 4
 ●        1 + 2 + 3 + 4 = 10
 ●        11 + 22 + 33 + 44 + 55 = 165
@@ -72,10 +75,14 @@ Perform continuous functions:
 ●        100 / 5 / 4 / 2 = 2.5
 ●        4 + 3 * 7 - 14 / 7 = 5
 
-Pressing the clear button resets screen to 0
-●        Optional:
++ Pressing the clear button resets screen to 0
+
+Optional:
++ I added Calculation history.
+
 ●        Add a memory save button (M+)
 ●        Add a memory clear button (M-)
 ●        Add a memory recall button (MR)
 
-●        Application is publicly available on GitHub pages
+Can't get to work, thinking of making a new GitHub repository
+        Application is publicly available on GitHub pages
