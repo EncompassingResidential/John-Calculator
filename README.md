@@ -84,21 +84,24 @@ Optional:
 I added:
 + Calculation history
 
+Now my = button is over writting Calculator History even in Local Storage.
+It is after I did a multiple Operand Operation.
+
 + , to results / Sum
-Add History when % is pressed (and I think I have to clear RightOperand due to my logic)
-Add max 3 digits after . period
++ History when % is pressed (and I think I have to clear RightOperand due to my logic)
++ ohh, he didn't say max 3 digits after . period he stated at least 3 digits after the decimal period.
 
 Ghost these out if not going to do
 + period '.' button
-  Maybe add check for two periods in a row...
++ fixed if initial button is a '.' button
 
-Add +/-
+Maybe add check for two periods in a row...
+
++ Add +/-
+
 Maybe add Clear History button which clears Local Storage
 
 He said I don't have to add these since I did calculator history
 ●        Add a memory save button (M+)
 ●        Add a memory clear button (M-)
 ●        Add a memory recall button (MR)
-
-Can't get to work, thinking of making a new GitHub repository
-        Application is publicly available on GitHub pages
