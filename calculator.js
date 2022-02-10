@@ -3,12 +3,10 @@ let calculatorHistoryItem = {
         result: null
     }
 
-const initialStateItems = {
-        entryInputLeftOperand: "", // 0 is fine except if the initial operation is a multiply
-                                        // 2/08/22 decided to make it null
-                                        // 2/10/22 trying as empty string
+let initialStateItems = {
+        entryInputLeftOperand: "",
         entryInputRightOperand: "",
-        entryCurrentOperator: "",  // will be single string '+', '-', '*', '/', '%'
+        entryCurrentOperator: "",  // will be single character string '+', '-', '*', '/', '%'
         entryFieldIsMultiDigitNumber: false,
         operationNumberSum: 0,
         operationIsContinousFunction: false,
