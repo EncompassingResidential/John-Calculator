@@ -183,18 +183,11 @@ function calculateRunningSum() {
     let currentOperation = '';
     let currentSum = 0;
 
-    calculatorStateItems.calculatorHistory.forEach(element => {
-        console.log(`\n   calculateRunningSum BEGINNING calculatorHistory.calculation <${element.calculation}>`);
-    });
-
     let currentLeftOperand = calculatorStateItems.entryInputLeftOperand;
     let currentRightOperand = calculatorStateItems.entryInputRightOperand;
 
     currentLeftOperand  =  (currentLeftOperand.search(".") !== -1) ? +(currentLeftOperand) : parseInt(currentLeftOperand);
     currentRightOperand = (currentRightOperand.search(".") !== -1) ? +(currentRightOperand) : parseInt(currentRightOperand);
-
-    console.log(`\n  --- function calculateRunningSum() for ${calculatorStateItems.entryCurrentOperator}`);
-    console.log(`   calculatorStateItems.operationRunningHistory ${calculatorStateItems.operationRunningHistory}\n`);
 
     switch (calculatorStateItems.entryCurrentOperator) {
         case '+':
@@ -251,12 +244,13 @@ function calculateRunningSum() {
     calculatorStateItems.operationNumberSum = currentSum;
     fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.operationNumberSum );
 
-    /*  L 11 + R 22
+    /*
+        Left Operand 11 + Right Operand 22
         currentOperation = currentLeftOperand + ' * ' + currentRightOperand;
         currentOperation = 11 + 22
         calculatorStateItems.operationNumberSum = 33
         calculatorStateItems.operationRunningHistory = 11 + 22
-        client pressed - then a 47
+        Actor pressed - then a 47
 
         next time here
         currentOperation = 33 + 47
@@ -265,13 +259,7 @@ function calculateRunningSum() {
         Then calculatorStateItems.operationRunningHistory will be 11 + 22 33 + 47
 
      */
-    console.log(`--- B4 calculatorStateItems.operationRunningHistory ${calculatorStateItems.operationRunningHistory}`);
     calculatorStateItems.operationRunningHistory += currentOperation;
-    console.log(`--- A3 calculatorStateItems.operationRunningHistory ${calculatorStateItems.operationRunningHistory}`);
-
-    calculatorStateItems.calculatorHistory.forEach(element => {
-        console.log(`   calculateRunningSum END calculatorHistory.calculation <${element.calculation}>`);
-    });
 
 }  // function calculateRunningSum
 
@@ -279,14 +267,9 @@ function calculateRunningSum() {
 function calculateFinalSum() {
     let fieldCalculatorHistory = document.getElementById("field-calculator-history");
 
-    console.log(`\n                calculateFinalSum    Initial calculatorStateItems.calculatorHistory.length is ${calculatorStateItems.calculatorHistory.length}  @` + getTimeString());
-
-    calculatorStateItems.calculatorHistory.forEach(element => {
-        console.log(`   Still ! HERE -  calculateFinalSum BEGIN calculatorHistory.calculation <${element.calculation}>`);
-    });
-
+    // I know you hate comments,  I thought I should say because I decided to have a blank Object 
+    //   in my Initial calculatorStateItems then this was necessary
     if (calculatorStateItems.calculatorHistory.length === 1 && calculatorStateItems.calculatorHistory[0].result === null) {
-        console.log("           calculatorStateItems.calculatorHistory.pop()")
         calculatorStateItems.calculatorHistory.pop();
     }
 
@@ -296,22 +279,14 @@ function calculateFinalSum() {
     currentCalculatorHistoryItem.result = addCommaBeforePeriod( calculatorStateItems.operationNumberSum );
     currentCalculatorHistoryItem.calculation = calculatorStateItems.operationRunningHistory;
 
-    console.log(`   B4 push calculatorStateItems.calculatorHistory.length is ${calculatorStateItems.calculatorHistory.length}`);
-
     // THIS IS WHERE calculatorStateItems.calculatorHistory's broken.
-    calculatorStateItems.calculatorHistory.forEach(element => {
-        console.log(`   Is it HERE ??? B4 push calculatorStateItems.calculatorHistory.calculation <${element.calculation}>`);
-    });
 
-    console.log(`currentCalculatorHistoryItem push <${currentCalculatorHistoryItem.result}, ${currentCalculatorHistoryItem.calculation}>`);
     calculatorStateItems.calculatorHistory.push(currentCalculatorHistoryItem);
     
-    console.log(`   A3 push calculatorStateItems.calculatorHistory.length is ${calculatorStateItems.calculatorHistory.length}`);
-
     fieldCalculatorHistory.textContent = 'Calculator History\r\n\r\n';
+
     calculatorStateItems.calculatorHistory.forEach(element => {
-        fieldCalculatorHistory.textContent += ">>>" + element.calculation + ' = ' + element.result + `\r\n`;
-        console.log(`  Adding to fieldCalculatorHistory.textContent calculatorStateItems.calculatorHistory.calculation <${element.calculation}>`);
+        fieldCalculatorHistory.textContent += element.calculation + ' = ' + element.result + `\r\n`;
     });
 
     calculatorStateItems.entryInputLeftOperand = "";
@@ -329,18 +304,12 @@ function calculateFinalSum() {
 
 
 function numberButtonClickedAction(buttonNumber) {
-    // WHEN do I need to call this? getCalculatorStateFromLocalStorage();
+
     let fieldEntryResult = document.getElementById("field-entry-result");
     
-    // console.log(`\n ${buttonNumber}  pressed ${getTimeString()}`);
-
     if (calculatorStateItems.entryFieldIsMultiDigitNumber === true) {
 
         if (calculatorStateItems.entryInputRightOperand != "") {
-            // console.log("RightOperand typeof < " + typeof calculatorStateItems.entryInputRightOperand);
-            // console.log("buttonNumber.toString() typeof < " + typeof buttonNumber.toString());
-            // console.log("parseInt RightOperand + parseInt buttonNumber typeof < " + typeof (parseInt(calculatorStateItems.entryInputRightOperand) + parseInt(buttonNumber)));
-            // console.log("RightOperand + buttonNumber.toString() = <" + (calculatorStateItems.entryInputRightOperand + buttonNumber.toString()) + ">");
             
             calculatorStateItems.entryInputRightOperand = calculatorStateItems.entryInputRightOperand + buttonNumber.toString();
             fieldEntryResult.textContent = addCommaBeforePeriod(calculatorStateItems.entryInputRightOperand);
@@ -350,7 +319,6 @@ function numberButtonClickedAction(buttonNumber) {
         }
     }
     else {
-        // console.log(`calculatorStateItems.entryFieldIsMultiDigitNumber  !==  true`);
         calculatorStateItems.entryFieldIsMultiDigitNumber = true;
         fieldEntryResult.textContent = buttonNumber.toString();
         calculatorStateItems.entryInputRightOperand = buttonNumber.toString();
@@ -364,24 +332,16 @@ function numberButtonClickedAction(buttonNumber) {
 function operatorButtonClickedForTwoOperands(currentOperator) {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
-    // console.log(`\n operationButtonClickedForTwoOperands for ${currentOperator} operation ${getTimeString()}`);
-
     if (calculatorStateItems.entryInputRightOperand != "") {
 
-        // console.log(`- calculatorStateItems.entryInputRightOperand <${calculatorStateItems.entryInputRightOperand}> ${getTimeString()}`);
-
-        /*  L 11 + R 22
-            Actor pressed Operator button + - * /
-        */
         if (calculatorStateItems.entryInputLeftOperand != "") {
-            // console.log(`-- TRUE calculatorStateItems.operationIsContinousFunction <${calculatorStateItems.operationIsContinousFunction}> ${getTimeString()}`);
 
             calculatorStateItems.operationIsContinousFunction = true;
 
             // This sums the 1st two Operands / numbers that the Actor typed in with the "previous" Operation.
             calculateRunningSum();
             
-            // for a multiple number operation this sets the Operator for the next Operand.  
+            // for a multiple number operation {entryFieldIsMultiDigitNumber} this sets the Operator for the next Operand.  
             // i.e. the Operator button the Actor just pressed is currently acting like an Equal sign on the previous 2 Operands
             calculatorStateItems.entryInputLeftOperand = calculatorStateItems.operationNumberSum.toString();
             calculatorStateItems.entryCurrentOperator = currentOperator;
@@ -390,12 +350,9 @@ function operatorButtonClickedForTwoOperands(currentOperator) {
 
         }
         else {
-            // console.log(`-- False calculatorStateItems.operationIsContinousFunction <${calculatorStateItems.operationIsContinousFunction}> ${getTimeString()}`);
-            
             calculatorStateItems.entryInputLeftOperand = calculatorStateItems.entryInputRightOperand;
             calculatorStateItems.entryCurrentOperator = currentOperator;
             fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.entryInputLeftOperand ) + '  ' + currentOperator;
-
         }
     }
     else {
@@ -412,10 +369,6 @@ function operatorButtonClickedForTwoOperands(currentOperator) {
 
 function operatorButtonClickedForOneOperand(currentOperation) {
     let fieldEntryResult = document.getElementById("field-entry-result");
-
-    console.log(`\n operationButtonClickedForOneOperand for ${currentOperation} operation ${getTimeString()}`);
-
-    console.log(`calculatorStateItems.entryInputRightOperand <${calculatorStateItems.entryInputRightOperand}> ${getTimeString()}`);
 
     // This is stating that if Actor had pressed a [Number A] Operation [Number B] % 
     //   then the 1st [Number A] Operation is canceled
@@ -436,8 +389,6 @@ function operatorButtonClickedForOneOperand(currentOperation) {
 function clearButtonClicked() {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
-    calculatorStateItems = initialStateItems;
-
     fieldEntryResult.textContent = 0;
 
     calculatorStateItems.entryInputLeftOperand = "";
@@ -452,17 +403,13 @@ function clearButtonClicked() {
 
 
 function periodButtonClicked() {
-    // NOT SURE WHEN getCalculatorStateFromLocalStorage();
-    let fieldEntryResult = document.getElementById("field-entry-result");
-    
-    // console.log(`\n    periodButtonClicked()  pressed ${getTimeString()}`);
 
-    // console.log("RightOperand will be = <" + calculatorStateItems.entryInputRightOperand + "." + ">");
+    let fieldEntryResult = document.getElementById("field-entry-result");
     
     calculatorStateItems.entryInputRightOperand = (calculatorStateItems.entryInputRightOperand != "") ?
                                                         calculatorStateItems.entryInputRightOperand + "." :
                                                         "0.";
-    // console.log(`calculatorStateItems.entryInputRightOperand is now ${calculatorStateItems.entryInputRightOperand}`);
+
     fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.entryInputRightOperand );
 
     calculatorStateItems.entryFieldIsMultiDigitNumber = true;
@@ -473,15 +420,12 @@ function periodButtonClicked() {
 
 function plusMinusButtonClicked() {
     let fieldEntryResult = document.getElementById("field-entry-result");
-    
-    // console.log(`\n    plusMinusButtonClicked()  pressed ${getTimeString()}`);
 
-    // console.log("RightOperand will be = < -" + calculatorStateItems.entryInputRightOperand + ">");
-    
     calculatorStateItems.entryInputRightOperand = (calculatorStateItems.entryInputRightOperand != "") ?
                                                         "-" + calculatorStateItems.entryInputRightOperand :
                                                         "-";
-    // console.log(`calculatorStateItems.entryInputRightOperand is now ${calculatorStateItems.entryInputRightOperand}`);
+
+
     fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.entryInputRightOperand );
 
     calculatorStateItems.entryFieldIsMultiDigitNumber = true;
@@ -497,13 +441,12 @@ function resultFieldClicked() {
 function clearLocalStorage() {
     localStorage.clear();
     calculatorStateItems = initialStateItems;
-    console.log(`clearLocalStorage ${getTimeString()}`);
 }
 
 function getCalculatorStateFromLocalStorage() {
 
     calculatorStateLocalStorage = JSON.parse(localStorage.getItem('calculatorStateLocalStorage')) || initialStateItems;
-    // console.log(`calculatorStateLocalStorage <${calculatorStateLocalStorage}>`);
+
     (calculatorStateLocalStorage !== null) ? calculatorStateItems = calculatorStateLocalStorage : 
         console.log('<<< calculatorStateLocalStorage is null  ' + getTimeString());
 
