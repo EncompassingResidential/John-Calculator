@@ -29,7 +29,7 @@
     */
 
     /* grid-template-rows: 200px 150px;  */
-    grid-template-rows: 10vh 10vh 10vh 10vh 10vh 10vh;
+    grid-template-rows: 8vh 8vh 8vh 8vh 8vh 8vh 5vh;
     /* grid-auto-rows: (100px, auto); */
 
     /* old name grid-gap: 10px; */

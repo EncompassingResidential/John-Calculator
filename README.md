@@ -61,25 +61,41 @@ Divide two numbers
 Display decimals to at least the thousandth (.001)
 + on results and calculator history
 
-needs this on being able to enter in floating
+-----  "needs this" on being able to enter in floating
 
 Needs on - Perform continuous functions:
-●        1 + 1 + 1 + 1 = 4
-●        1 + 2 + 3 + 4 = 10
-●        11 + 22 + 33 + 44 + 55 = 165
-●        100 - 50 - 20 - 10 = 20
-●        2 * 3 * 4 * 5 = 120
-●        22 * 33 * 44 = 31,944
-●        100 / 5 / 4 = 5
-●        1000 / 50 / 10 = 2
-●        100 / 5 / 4 / 2 = 2.5
-●        4 + 3 * 7 - 14 / 7 = 5
+● +       1 + 1 + 1 + 1 = 4
+● +       1 + 2 + 3 + 4 = 10
+● +       11 + 22 + 33 + 44 + 55 = 165
+● +       100 - 50 - 20 - 10 = 20
+● +       2 * 3 * 4 * 5 = 120
+● + except no comma       22 * 33 * 44 = 31,944
+● +       100 / 5 / 4 = 5
+● +       1000 / 50 / 10 = 2
+● +       100 / 5 / 4 / 2 = 2.5
+● +       4 + 3 * 7 - 14 / 7 = 5 (not holding to operator precedence, Thank You.)
+
+if operator precedence was held to then:
+4 + (3 * 7 = 21) means 4 + 21 means 25 - (14 / 7 = 2) means 25 - 2 = 23
 
 + Pressing the clear button resets screen to 0
 
 Optional:
-+ I added Calculation history.
+I added:
++ Calculation history
 
++ , to results / Sum
+Add History when % is pressed (and I think I have to clear RightOperand due to my logic)
+Add max 3 digits after . period
+
+Ghost these out if not going to do
++ period '.' button
+  Maybe add check for two periods in a row...
+
+Add +/-
+Maybe add Clear History button which clears Local Storage
+
+He said I don't have to add these since I did calculator history
 ●        Add a memory save button (M+)
 ●        Add a memory clear button (M-)
 ●        Add a memory recall button (MR)
