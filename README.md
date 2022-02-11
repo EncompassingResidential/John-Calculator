@@ -12,7 +12,7 @@ Run the project at: https://encompassingresidential.github.io/John-Calculator/
 
 App Should look like this:
 
-![Calculator_Basic_Look](https://user-images.githubusercontent.com/94155021/153593909-a629e5d8-53c9-4372-97a7-33b4cf75fbb7.png)
+![Calculator_Basic_Look](https://user-images.githubusercontent.com/94155021/153640205-6402c1ee-66d5-468e-9cd3-1cc362a3699f.png)
 
 You can find my CV Resume at https://www.linkedin.com/in/johntritz/ 
 
