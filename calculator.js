@@ -307,14 +307,8 @@ function numberButtonClickedAction(buttonNumber) {
     
     if (calculatorStateItems.entryFieldIsMultiDigitNumber === true) {
 
-        if (calculatorStateItems.entryInputRightOperand != "") {
-            
-            calculatorStateItems.entryInputRightOperand = calculatorStateItems.entryInputRightOperand + buttonNumber.toString();
-            fieldEntryResult.textContent = addCommaBeforePeriod(calculatorStateItems.entryInputRightOperand);
-        }
-        else {
-            console.log(`calculatorStateItems.entryInputRightOperand == "" or null     Is this Truthy?`);
-        }
+        calculatorStateItems.entryInputRightOperand = (calculatorStateItems.entryInputRightOperand === "0") ? buttonNumber.toString() : calculatorStateItems.entryInputRightOperand + buttonNumber.toString();
+        fieldEntryResult.textContent = addCommaBeforePeriod(calculatorStateItems.entryInputRightOperand);
     }
     else {
         calculatorStateItems.entryFieldIsMultiDigitNumber = true;
@@ -404,30 +398,42 @@ function periodButtonClicked() {
 
     let fieldEntryResult = document.getElementById("field-entry-result");
     
-    calculatorStateItems.entryInputRightOperand = (calculatorStateItems.entryInputRightOperand != "") ?
-                                                        calculatorStateItems.entryInputRightOperand + "." :
-                                                        "0.";
+    // calculatorStateItems.entryFieldIsMultiDigitNumber &&
+    if ( calculatorStateItems.entryInputRightOperand.search(/\./) === -1 ) {
+        
+        calculatorStateItems.entryInputRightOperand = 
+                (calculatorStateItems.entryInputRightOperand != "" )
+                ?
+                        calculatorStateItems.entryInputRightOperand + "." :
+                        "0.";
+        fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.entryInputRightOperand );
 
-    fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.entryInputRightOperand );
-
-    calculatorStateItems.entryFieldIsMultiDigitNumber = true;
-
-    writeCalculatorStateToLocalStorage();
+        calculatorStateItems.entryFieldIsMultiDigitNumber = true;
+    
+        writeCalculatorStateToLocalStorage();
+        }
 }
 
 
 function plusMinusButtonClicked() {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
-    calculatorStateItems.entryInputRightOperand = (calculatorStateItems.entryInputRightOperand != "") ?
-                                                        "-" + calculatorStateItems.entryInputRightOperand :
-                                                        "-";
+    if (calculatorStateItems.entryInputRightOperand.search("-") === -1) {
+        calculatorStateItems.entryInputRightOperand =
+            (calculatorStateItems.entryInputRightOperand != "") ?
+                    "-" + calculatorStateItems.entryInputRightOperand :
+                    "-";
 
+    }
+    else {
+        calculatorStateItems.entryInputRightOperand =
+            calculatorStateItems.entryInputRightOperand.split("-")[1];
+    }
 
     fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.entryInputRightOperand );
 
     calculatorStateItems.entryFieldIsMultiDigitNumber = true;
-
+    
     writeCalculatorStateToLocalStorage();
 
 }
