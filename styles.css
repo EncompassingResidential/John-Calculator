@@ -94,6 +94,12 @@ div.field-entry-result {
     grid-column-end: 7; 
     grid-row-start: 1;
     grid-row-end: 5; 
+
+    height: 45vh;
+
+    overflow:scroll; 
+    border: thin rgb(216, 107, 5) solid; 
+    padding: 5px;
 }
 
 .button-0 {
