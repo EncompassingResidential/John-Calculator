@@ -272,10 +272,10 @@ function calculateFinalSum() {
     }
 
     // BIG LESSON ???: forgetting how global Object used as multiple items of an array.  I had assumed it created a new Object for each array instance.
-    let currentCalculatorHistoryItem = calculatorHistoryItem;
-
-    currentCalculatorHistoryItem.result = addCommaBeforePeriod( calculatorStateItems.operationNumberSum );
-    currentCalculatorHistoryItem.calculation = calculatorStateItems.operationRunningHistory;
+    let currentCalculatorHistoryItem = { 
+        result      : addCommaBeforePeriod( calculatorStateItems.operationNumberSum ),
+        calculation : calculatorStateItems.operationRunningHistory
+    }
 
     // THIS IS WHERE calculatorStateItems.calculatorHistory's broken.
 
