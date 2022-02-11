@@ -13,7 +13,7 @@ Run the project at: https://encompassingresidential.github.io/John-Calculator/
 
 Should look like this:
 
-![Calculator_Basic_Look](https://user-images.githubusercontent.com/94155021/152419959-3615166f-64be-43d3-ae09-7b0f20f573b2.png)
+![Calculator_Basic_Look](https://user-images.githubusercontent.com/94155021/153593909-a629e5d8-53c9-4372-97a7-33b4cf75fbb7.png)
 
 1-3 weeks
 
