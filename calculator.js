@@ -362,19 +362,21 @@ function operatorButtonClickedForTwoOperands(currentOperator) {
 function operatorButtonClickedForOneOperand(currentOperation) {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
-    // This is stating that if Actor had pressed a [Number A] Operation [Number B] % 
-    //   then the 1st [Number A] Operation is canceled
-    //    and [Number B] is acted upon as a Percent in 
-    calculatorStateItems.entryInputLeftOperand = "";
-    calculatorStateItems.entryCurrentOperator = currentOperation;
+    if (calculatorStateItems.entryInputRightOperand !== "") {
 
-    fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.entryInputRightOperand ) + '  ' + currentOperation;
+            // This is stating that if Actor had pressed a [Number A] Operation [Number B] % 
+            //   then the 1st [Number A] Operation is canceled
+            //    and [Number B] is acted upon as a Percent in 
+        calculatorStateItems.entryInputLeftOperand = "";
+        calculatorStateItems.entryCurrentOperator = currentOperation;
 
-    calculateRunningSum();
-    calculateFinalSum();
+        fieldEntryResult.textContent = addCommaBeforePeriod( calculatorStateItems.entryInputRightOperand ) + '  ' + currentOperation;
 
-    writeCalculatorStateToLocalStorage();
+        calculateRunningSum();
+        calculateFinalSum();
 
+        writeCalculatorStateToLocalStorage();
+    }
 }  // function operatorButtonClickedForOneOperand
 
 
