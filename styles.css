@@ -11,35 +11,20 @@
     background: rgb(50, 3, 88); /* I like this purple color rgb(50, 3, 88); */
     color: rgb(92, 182, 205);
 
-    /* old name grid-column-gap: 5px; */
     column-gap: 5px;
 
     display: grid;
-    /* grid-template-columns: 2fr 1fr; */
-    /* grid-template-columns: repeat(4, 100px); */
 
     grid-template-columns: 32px 32px 32px 32px auto 150px;
-    /* grid-template-columns: 32px 32px 32px 10vh; */
 
-    /* YouTube - Web Dev Simplified doesn't like this method but mentions it:
-    grid-template-areas: 
-    "header header"
-    "sidebar content"
-    "sidebar content"
-    */
-
-    /* grid-template-rows: 200px 150px;  */
     grid-template-rows: 8vh 8vh 8vh 8vh 8vh 8vh 5vh;
-    /* grid-auto-rows: (100px, auto); */
 
-    /* old name grid-gap: 10px; */
     gap: 1px;
 
     padding: 1em;
 
     justify-content: stretch;
     
-    /* ones I liked: strech, flex-start, flex-end */
     align-content: stretch;
     height: 60vh;
     width: 60vh;
@@ -62,27 +47,17 @@
 div.field-entry-result {
     background: rgb(94, 9, 151);
 
-
-    /* YouTube - Web Dev Simplified prefers grid-column-[start, end] for column layouts 
-    https://www.youtube.com/watch?v=9zBsdzdE4sM&t=604s
-    */
     grid-column-start: 1;
     grid-column-end: 5; 
 
     color: greenyellow;
     
-    /* vertical-align: middle; */
-
     margin: 0;
     position: relative;
     top: 50%;          
     -ms-transform: translateY(-50%);
     transform: translate(0, -50%)
 
-    /*
-    WDS other way to do the grid-column
-    grid-column: 1 / -1;
-*/
 }
 
 .field-calculator-history {

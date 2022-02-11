@@ -1,3 +1,6 @@
+/*
+   For instructions or to run please see README.md or go to https://github.com/EncompassingResidential/John-Calculator.git
+ */
 let calculatorHistoryItem = {
         calculation: "",
         result: null
@@ -46,8 +49,6 @@ function getTimeString() {
 }
 
 function initializeCalculator() {
-
-     clearLocalStorage();
 
     getCalculatorStateFromLocalStorage();
 
@@ -266,18 +267,16 @@ function calculateFinalSum() {
     let fieldCalculatorHistory = document.getElementById("field-calculator-history");
 
     // I know you hate comments,  I thought I should say because I decided to have a blank Object 
-    //   in my Initial calculatorStateItems then this was necessary
+    //   in my Initial calculatorStateItems.calculatorHistory then this pop() was necessary.
     if (calculatorStateItems.calculatorHistory.length === 1 && calculatorStateItems.calculatorHistory[0].result === null) {
         calculatorStateItems.calculatorHistory.pop();
     }
 
-    // BIG LESSON ???: forgetting how global Object used as multiple items of an array.  I had assumed it created a new Object for each array instance.
+    // BIG LESSON: forgetting how global Object used as multiple items of an array.  I had assumed it created a new Object for each array instance.
     let currentCalculatorHistoryItem = { 
         result      : addCommaBeforePeriod( calculatorStateItems.operationNumberSum ),
         calculation : calculatorStateItems.operationRunningHistory
     }
-
-    // THIS IS WHERE calculatorStateItems.calculatorHistory's broken.
 
     calculatorStateItems.calculatorHistory.push(currentCalculatorHistoryItem);
     
@@ -326,6 +325,7 @@ function operatorButtonClickedForTwoOperands(currentOperator) {
 
     if (calculatorStateItems.entryInputRightOperand != "") {
 
+        // The actor is doing a multiple operator & operand math operation
         if (calculatorStateItems.entryInputLeftOperand != "") {
 
             calculatorStateItems.operationIsContinousFunction = true;
@@ -333,8 +333,11 @@ function operatorButtonClickedForTwoOperands(currentOperator) {
             // This sums the 1st two Operands / numbers that the Actor typed in with the "previous" Operation.
             calculateRunningSum();
             
-            // for a multiple number operation {entryFieldIsMultiDigitNumber} this sets the Operator for the next Operand.  
-            // i.e. the Operator button the Actor just pressed is currently acting like an Equal sign on the previous 2 Operands
+            /*
+              For a multiple number operation {entryFieldIsMultiDigitNumber} this sets the Operator for the next Operand.  
+               i.e. The Actor just pressed an Operator button which is 
+                    currently acting like an Equal sign on the 2 Operands just typed in.
+             */
             calculatorStateItems.entryInputLeftOperand = calculatorStateItems.operationNumberSum.toString();
             calculatorStateItems.entryCurrentOperator = currentOperator;
 
@@ -362,11 +365,12 @@ function operatorButtonClickedForTwoOperands(currentOperator) {
 function operatorButtonClickedForOneOperand(currentOperation) {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
+    // YAGNI - future switch statement for multiple single operators
     if (calculatorStateItems.entryInputRightOperand !== "") {
 
             // This is stating that if Actor had pressed a [Number A] Operation [Number B] % 
             //   then the 1st [Number A] Operation is canceled
-            //    and [Number B] is acted upon as a Percent in 
+            //    and [Number B] is acted upon as a Percent in this case
         calculatorStateItems.entryInputLeftOperand = "";
         calculatorStateItems.entryCurrentOperator = currentOperation;
 
@@ -392,7 +396,7 @@ function clearButtonClicked() {
     calculatorStateItems.entryFieldIsMultiDigitNumber = false;
 
     writeCalculatorStateToLocalStorage();
-    // clearLocalStorage();
+
 }
 
 
@@ -400,7 +404,6 @@ function periodButtonClicked() {
 
     let fieldEntryResult = document.getElementById("field-entry-result");
     
-    // calculatorStateItems.entryFieldIsMultiDigitNumber &&
     if ( calculatorStateItems.entryInputRightOperand.search(/\./) === -1 ) {
         
         calculatorStateItems.entryInputRightOperand = 
@@ -413,7 +416,7 @@ function periodButtonClicked() {
         calculatorStateItems.entryFieldIsMultiDigitNumber = true;
     
         writeCalculatorStateToLocalStorage();
-        }
+    }
 }
 
 
@@ -421,6 +424,7 @@ function plusMinusButtonClicked() {
     let fieldEntryResult = document.getElementById("field-entry-result");
 
     if (calculatorStateItems.entryInputRightOperand.search("-") === -1) {
+
         calculatorStateItems.entryInputRightOperand =
             (calculatorStateItems.entryInputRightOperand != "") ?
                     "-" + calculatorStateItems.entryInputRightOperand :
